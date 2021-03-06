@@ -2,8 +2,12 @@ import React, { useReducer } from "react";
 
 import proyectoContext from "./proyectoContext";
 import proyectoReducer from "./proyectoReducer";
-import { FORMULARIO_PROYECTO, OBTENER_PROYECTOS } from "../../types";
-
+import {
+  FORMULARIO_PROYECTO,
+  OBTENER_PROYECTOS,
+  AGREGAR_PROYECTO,
+} from "../../types";
+import { v4 as uuidv4 } from "uuid";
 const ProyectoState = (props) => {
   const proyectosLi = [
     { id: 1, nombre: "Tienda Virtual" },
@@ -37,6 +41,19 @@ const ProyectoState = (props) => {
     });
   };
 
+  // Agregar nuevo proyecto
+
+  const agregarProyecto = (proyecto) => {
+    proyecto.id = uuidv4();
+
+    // insertar proyecto en el state con un dispath
+
+    dispatch({
+      type: AGREGAR_PROYECTO,
+      payload: proyecto,
+    });
+  };
+
   return (
     <proyectoContext.Provider
       value={{
@@ -44,6 +61,7 @@ const ProyectoState = (props) => {
         formulario: state.formulario,
         mostrarFormulario,
         obtenerProyectos,
+        agregarProyecto,
       }}
     >
       {props.children}
